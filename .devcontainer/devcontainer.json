@@ -1,0 +1,8 @@
+{
+  "dockerFile": "Dockerfile",
+  "context": ".",
+  "extensions": [
+    "jroesch.lean",
+    "bungcip.better-toml"
+  ]
+}
