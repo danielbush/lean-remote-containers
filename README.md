@@ -37,7 +37,7 @@ Some possible benefits:
 
 Clone this repo somewhere and then copy the `.devcontainer/` folder into your lean project.
 
-We'll 
+We'll assume your project name is `my-lean-project`.
 
 For example:
 
