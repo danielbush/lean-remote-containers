@@ -28,24 +28,29 @@ Some possible benefits:
   Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
   extension in vscode.
 - Ensure your system is running docker (eg `docker ps` should work)
+  - In linux, you probably want to be part of the docker group so you don't have to
+    use `sudo`.  I'll assume such users are familiar with this.  For macOS you can install
+    Docker Desktop gui which will give you docker cli commands.  I don't have a windows box,
+    but I'd assume you get a similar experience to the mac.
 
 ### Setup
 
 Clone this repo somewhere and then copy the `.devcontainer/` folder into your lean project.
 
+We'll 
+
 For example:
 
 ```
-  cd projects/
+  git clone https://github.com/danielbush/lean-remote-containers.git
   mkdir my-lean-project
-  git clone https://github.com/danielbush/lean-remote-containers.git # this is outside my-lean-project btw
-  cp -a lean-remote-containers/.devcontainer my-lean-project/ # linux / macOS
+  cp -a lean-remote-containers/.devcontainer my-lean-project/
   code my-lean-project
 ```
 
+Initially vscode will be in "local" mode and will not launch the container.
 vscode should notice that you have a `.devcontainer/` and may prompt you to
-open the remote container. Initially vscode will be in "local" mode and will
-not launch the container.
+open the remote container. 
 
 ### Checks
 
@@ -61,7 +66,9 @@ vscode will reopen each time.
       `.devcontainer/`.) Subsequent sessions should be almost instant.
 - `ctrl/cmd+shift+p` + `Remote-Containers: Reopen Locally`
   - puts vscode back into your local environment again.
-- Exiting vscode appears to exit the container.
+- Exiting vscode appears to exit the container.  Which means it will never run
+  again but may still be listed if you run `docker ps -a`.  All of which is fine
+  because a new container will get started next time you start vscode.
 - The `Remote-Containers: Rebuild and Reopen in Container` command rebuilds
   the MS part of the lean docker image. Note this won't rebuild lean. See
   further down to rebuild the whole lean docker image to get the latest lean.
@@ -99,8 +106,12 @@ Note:
 - Your terminal should open in your **project workspace** in the container
   (ie `/workspaces/my-lean-project`). Your project workspace is accessible on
   both your host system and in the docker container.
+  This is the **only place** you should put your work.  You should be able
+  to see your work from your host system.
 - Your **home directory** in the lean container is `/home/lean` where some of
   the software is stored / configured. It exists purely within the container.
+  Don't put any of your work here.  When the container exits and gets pruned,
+  you'll lose it.
 
 If this is a new project, you can now run
 
@@ -122,7 +133,9 @@ and docker containers. To completely rebuild your lean container so as to get
 the latest version of lean, you can delete these and then re-open vscode.
 There might be a better way to do this, but I can't see it in the docs.
 
-lean container(s) and image(s) currently have names like `vsc-your-project-name-xxx`.
+vscode's container(s) and image(s) currently have names like `vsc-your-project-name-xxx`.
+The trick is: delete all the containers which rely on the lean image that we built above.
+This will allow you to delete the image.  That will force vscode to rebuild.
 
 First, exit vscode. This will hopefully exit the lean container.
 
