@@ -32,6 +32,9 @@ Some possible benefits:
     use `sudo`.  I'll assume such users are familiar with this.  For macOS you can install
     Docker Desktop gui which will give you docker cli commands.  I don't have a windows box,
     but I'd assume you get a similar experience to the mac.
+- To use lean locally you need the [Lean 3 extension](https://marketplace.visualstudio.com/items?itemName=jroesch.lean) .
+  This extension is installed for you on the remote container and runs in the container
+  environment.
 
 ### Setup
 
